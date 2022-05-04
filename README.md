@@ -12,6 +12,16 @@ Uygulamadan görseller.
 </p>
 
 <p align="left" width="100%">
+  <img src="https://user-images.githubusercontent.com/73544434/166820932-8ca56cf8-3ab0-4edc-9624-306d0fb94cb5.png" width="240" height="480" />
+  <img src="https://user-images.githubusercontent.com/73544434/166821015-775e19b6-24ea-4eb4-9803-0c6461e8d716.png" width="240" height="480" />
+</p>
+
+<p align="left" width="100%">
+  <img src="https://user-images.githubusercontent.com/73544434/166820933-f2ebae2b-74c3-4102-8fe8-331df19d4593.png" width="240" height="480" />
+  <img src="https://user-images.githubusercontent.com/73544434/166821014-3b7ad35b-d373-49ae-afc7-715fe7247322.png" width="240" height="480" />
+</p>
+
+<p align="left" width="100%">
   <img src="https://user-images.githubusercontent.com/73544434/166817515-91726ab1-de9f-4ce1-9260-0f448741cd8c.png" width="240" height="480" />
   <img src="https://user-images.githubusercontent.com/73544434/166817912-afbb1178-328a-477e-93b3-064a6a676638.png" width="240" height="480" />
 </p>
