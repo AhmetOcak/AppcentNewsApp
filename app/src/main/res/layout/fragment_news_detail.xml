@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".view.NewsDetailFragment">
+
+    <data>
+        <variable
+            name="newsDetailFragment"
+            type="com.newsapp.view.NewsDetailFragment" />
+        <variable
+            name="viewModel"
+            type="com.newsapp.viewmodel.NewsDetailFragmentViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/newsDetailsFragmentToolbar"
+            layout="@layout/custom_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/detail_news_image"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            app:imageUrl="@{viewModel.newsImageUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/newsDetailsFragmentToolbar" />
+
+        <TextView
+            android:id="@+id/detail_news_title"
+            style="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="16dp"
+            android:text="@{viewModel.newsTitle}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_news_image" />
+
+        <TextView
+            android:id="@+id/news_source"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:drawablePadding="5dp"
+            android:text="@{viewModel.newsSource}"
+            app:drawableStartCompat="@drawable/ic_baseline_business"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detail_news_title" />
+
+        <TextView
+            android:id="@+id/news_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="24dp"
+            android:drawablePadding="5dp"
+            android:textAlignment="textStart"
+            android:text="@{viewModel.newsDate}"
+            app:drawableStartCompat="@drawable/ic_baseline_calendar_month"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/news_source"
+            app:layout_constraintTop_toBottomOf="@+id/detail_news_title" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:fillViewport="true"
+            app:layout_constraintBottom_toTopOf="@+id/news_source_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/news_source" >
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/detail_news_description"
+                    style="@style/TextAppearance.MaterialComponents.Body2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textAlignment="textStart"
+                    android:text="@{viewModel.newsDescription}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </ScrollView>
+
+        <Button
+            android:id="@+id/news_source_button"
+            style="@style/CustomOutlinedButtonTheme"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/source_button_text"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="8dp"
+            android:onClick="@{() -> newsDetailFragment.goToNextScreen()}"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
