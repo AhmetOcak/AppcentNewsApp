@@ -55,7 +55,6 @@ class DiffUtilCallBack : DiffUtil.ItemCallback<ArticlesModel>() {
     }
 
     override fun areContentsTheSame(oldItem: ArticlesModel, newItem: ArticlesModel): Boolean {
-        return oldItem.url == newItem.url
+        return oldItem == newItem
     }
-
 }
