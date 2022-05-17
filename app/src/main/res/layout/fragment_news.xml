@@ -4,6 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".view.NewsFragment">
 
+    <data>
+        <variable
+            name="viewModel"
+            type="com.newsapp.viewmodel.NewsViewModel" />
+    </data>
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -28,6 +34,7 @@
             android:queryHint="Type a text"
             android:searchIcon="@drawable/ic_baseline_search"
             android:theme="@style/CustomSearchViewTheme"
+            android:onQueryTextSubmit="@{(view) -> viewModel.listenSearchView(view)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar" />
@@ -55,9 +62,10 @@
             android:id="@+id/empty_news_warning"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/search_something"
+            android:text="@{viewModel.emptyNewsWarningText}"
             android:textAppearance="@style/TextAppearance.AppCompat.Body2"
             android:textStyle="bold"
+            android:visibility="@{viewModel.emptyNewsWarningVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +77,7 @@
             android:indeterminateTint="?attr/colorPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
+            android:visibility="@{viewModel.progressBarVisibility}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
