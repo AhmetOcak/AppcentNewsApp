@@ -4,6 +4,12 @@ Kullanıcı arama yaparak istediği haberlere ulaşabilir. Haberin detaylarına 
 
 <br>
 
+Api Key limiti aştığında veya internet ile alakalı bir sorun yaşandığında ekrana "Network error" mesajı gelir.
+
+İlgili aramaya dair bir sonuç bulunamadığında ekrana "There are no results" mesajı gelir.
+
+<br>
+
 Uygulamadan görseller.
 
 <p align="left" width="100%">
