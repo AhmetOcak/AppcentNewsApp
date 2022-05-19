@@ -10,21 +10,21 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.newsapp.R
 import com.newsapp.adapter.FavouriteNewsAdapter
-import com.newsapp.data.FavouriteNews
+import com.newsapp.data.FavouriteNewsViewModelFactory
 import com.newsapp.databinding.FragmentFavoriteNewsBinding
 import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.viewmodel.FavouriteNewsViewModel
 
 class FavoriteNewsFragment : Fragment() {
 
     private lateinit var binding: FragmentFavoriteNewsBinding
     private lateinit var favouriteNewsDB: FavouriteNewsDatabase
-    private lateinit var favouriteNewsList: List<FavouriteNews>
     private lateinit var favouriteNewsAdapter: FavouriteNewsAdapter
+    private lateinit var viewModel: FavouriteNewsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         favouriteNewsDB = FavouriteNewsDatabase.getFavouriteNewsDatabase(requireContext())!!
-        favouriteNewsList = favouriteNewsDB.favouriteNewsDao().getAllFavouriteNews()
     }
 
     override fun onCreateView(
@@ -37,21 +37,27 @@ class FavoriteNewsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel =
+            FavouriteNewsViewModelFactory(favouriteNewsDB).create(FavouriteNewsViewModel::class.java)
+        binding.viewModel = viewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         binding.toolbar.customToolbar.title = getString(R.string.favourite_fragment_title)
         binding.favouriteNewsRecylerview.apply {
             layoutManager = LinearLayoutManager(activity)
-            favouriteNewsAdapter = FavouriteNewsAdapter(favouriteNewsList, findNavController())
+            favouriteNewsAdapter = FavouriteNewsAdapter(
+                viewModel.favouriteNewsList.value ?: arrayListOf(),
+                findNavController()
+            )
             adapter = favouriteNewsAdapter
         }
+        viewModel.setWarningTextVisibility(favouriteNewsAdapter.itemCount)
+        onBackHandler()
+    }
 
-        // henüz favori haber eklenmediyse kullanıcı bilgilendirilir
-        if (favouriteNewsAdapter.itemCount == 0) {
-            binding.emptyWarning.visibility = View.VISIBLE
-        }
-
+    private fun onBackHandler() {
         // news fragment'ına dönüş yalnızca tablar araclığıyla sağlanmalıdır
         // geri tuşunun news fragment'ına yönlendirmesi engellenir
-        val callback = object: OnBackPressedCallback(true) {
+        val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {}
         }
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)

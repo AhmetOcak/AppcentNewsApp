@@ -1,23 +1,24 @@
 package com.newsapp.viewmodel
 
 import android.annotation.SuppressLint
-import android.content.Context
+import android.app.Application
 import android.os.Build
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
-import androidx.appcompat.content.res.AppCompatResources
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.*
 import com.newsapp.R
 import com.newsapp.data.ArticlesModel
 import com.newsapp.data.FavouriteNews
-import com.newsapp.databinding.FragmentNewsDetailBinding
 import com.newsapp.di.FavouriteNewsDatabase
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 
-class NewsDetailFragmentViewModel : ViewModel() {
+class NewsDetailViewModel(
+    application: Application,
+    private val favoriteNewsDB: FavouriteNewsDatabase,
+    private val newsData: Any?,
+) : AndroidViewModel(application) {
 
     private val _newsTitle = MutableLiveData<String>()
     val newsTitle: LiveData<String> get() = _newsTitle
@@ -34,14 +35,55 @@ class NewsDetailFragmentViewModel : ViewModel() {
     private val _newsImageUrl = MutableLiveData<String>()
     val newsImageUrl: LiveData<String> get() = _newsImageUrl
 
+    private val navControl = MutableLiveData<Boolean>()
+
+    private val _favouriteNewsData = MutableLiveData<FavouriteNews>()
+    private val _incomingFavNewsData = MutableLiveData<FavouriteNews>()
+
     private val imageNotFound: String = "https://demofree.sirv.com/nope-not-here.jpg"
     private val dateNotFound: String = "date not found"
 
+    init {
+        setData()
+    }
+
+    private fun addFavouriteNews(favNews: FavouriteNews) {
+        viewModelScope.launch {
+            favoriteNewsDB.favouriteNewsDao().addFavouriteNews(favNews)
+        }
+    }
+
+    private fun deleteFavouriteNews(newsUrl: String) {
+        viewModelScope.launch {
+            favoriteNewsDB.favouriteNewsDao().deleteFavouriteNews(newsUrl)
+        }
+    }
+
+    private fun getFavouriteNews() {
+        _favouriteNewsData.value =
+            favoriteNewsDB.favouriteNewsDao()
+                .getFavouriteNews(
+                    _incomingFavNewsData.value?.newsUrl.toString()
+                )
+    }
+
+    fun setInComingFavData(favNewsData: FavouriteNews) {
+        _incomingFavNewsData.value = favNewsData
+    }
+
+    private fun setData() {
+        if (newsData != null && newsData is FavouriteNews) {
+            navControl.value = false
+            setFavouriteNewsInfos(newsData)
+        } else {
+            navControl.value = true
+            setNewsInfos(newsData as ArticlesModel)
+        }
+    }
+
     // favori haberlerim sayfasından haber detay sayfasına giderken kullanılıyor
     @SuppressLint("NewApi")
-    fun setFavouriteNewsInfos(
-        favouriteNews: FavouriteNews,
-    ) {
+    private fun setFavouriteNewsInfos(favouriteNews: FavouriteNews) {
         _newsTitle.value = favouriteNews.newsTitle
         _newsDate.value = formatDate(favouriteNews.newsDate)
         _newsSource.value = favouriteNews.newsSource
@@ -51,14 +93,12 @@ class NewsDetailFragmentViewModel : ViewModel() {
 
     // haberler sayfasından haber detay sayfasına giderken kullanılıyor
     @SuppressLint("NewApi")
-    fun setNewsInfos(
-        newsData: ArticlesModel,
-    ) {
-        _newsTitle.value = newsData.title ?: ""
-        _newsDate.value = formatDate(newsData.publishedAt ?: "")
-        _newsSource.value = newsData.source?.name
-        _newsDescription.value = newsData.description ?: ""
-        _newsImageUrl.value = newsData.urlToImage ?: imageNotFound
+    private fun setNewsInfos(news: ArticlesModel) {
+        _newsTitle.value = news.title ?: ""
+        _newsDate.value = formatDate(news.publishedAt ?: "")
+        _newsSource.value = news.source?.name
+        _newsDescription.value = news.description ?: ""
+        _newsImageUrl.value = news.urlToImage ?: imageNotFound
     }
 
     // Eğer ilgili haber daha önceden favorilere eklenmediyse favorilere ekler ve favori ekle iconunu
@@ -66,42 +106,36 @@ class NewsDetailFragmentViewModel : ViewModel() {
     // iconun değiştirir.
     fun addOrDelete(
         it: MenuItem,
-        favNews: FavouriteNews,
-        newsUrl: String,
-        favoriteNewsDB: FavouriteNewsDatabase
     ) {
-        if (searchInDb(newsUrl, favoriteNewsDB)) {
-            favoriteNewsDB.favouriteNewsDao().addFavouriteNews(favNews)
+        if (searchInDb()) {
+            addFavouriteNews(_incomingFavNewsData.value!!)
             it.setIcon(R.drawable.ic_baseline_favorite)
         } else {
-            favoriteNewsDB.favouriteNewsDao().deleteFavouriteNews(favNews.newsUrl)
+            deleteFavouriteNews(_incomingFavNewsData.value?.newsUrl.toString())
             it.setIcon(R.drawable.ic_baseline_favorite_border)
         }
     }
 
     // haberin favorilere daha önceden eklenip eklenmediği durumuna göre favori ekle iconunu düzenler
-    fun setFavouriteIcon(
-        newsUrl: String,
-        favoriteNewsDB: FavouriteNewsDatabase,
-        binding: FragmentNewsDetailBinding,
-        context: Context
-    ) {
-        if (searchInDb(newsUrl, favoriteNewsDB)) {
-            binding.newsDetailsFragmentToolbar.customToolbar.menu.findItem(R.id.add_favorite).icon =
-                AppCompatResources.getDrawable(
-                    context,
-                    R.drawable.ic_baseline_favorite_border
-                )
+    fun setFavouriteIcon(): Boolean {
+        return if (newsData == null) {
+            searchInDb()
         } else {
-            binding.newsDetailsFragmentToolbar.customToolbar.menu.findItem(R.id.add_favorite).icon =
-                AppCompatResources.getDrawable(context, R.drawable.ic_baseline_favorite)
+            val url = favoriteNewsDB.favouriteNewsDao().getFavouriteNews(
+                if (newsData is FavouriteNews) {
+                    newsData.newsUrl
+                } else {
+                    (newsData as ArticlesModel).url.toString()
+                }
+            )
+            url == null
         }
     }
 
     // haberin favorilere daha önceden eklenip eklenmediğini haberin url'si aracılığıyla kontrol eder
-    private fun searchInDb(newsUrl: String, favoriteNewsDB: FavouriteNewsDatabase): Boolean {
-        val favNews = favoriteNewsDB.favouriteNewsDao().getFavouriteNews(newsUrl)
-        return favNews == null
+    private fun searchInDb(): Boolean {
+        getFavouriteNews()
+        return _favouriteNewsData.value?.newsUrl == null
     }
 
     // cihazın api leveline göre elimizdeki tarih bilgisini convert ediyoruz
