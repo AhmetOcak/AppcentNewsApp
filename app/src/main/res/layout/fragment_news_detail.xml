@@ -10,7 +10,7 @@
             type="com.newsapp.view.NewsDetailFragment" />
         <variable
             name="viewModel"
-            type="com.newsapp.viewmodel.NewsDetailFragmentViewModel" />
+            type="com.newsapp.viewmodel.NewsDetailViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
