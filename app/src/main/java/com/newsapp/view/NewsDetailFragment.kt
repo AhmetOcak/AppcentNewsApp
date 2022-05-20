@@ -21,9 +21,6 @@ class NewsDetailFragment : Fragment() {
     private lateinit var binding: FragmentNewsDetailBinding
     private lateinit var viewModel: NewsDetailViewModel
     private lateinit var favoriteNewsDB: FavouriteNewsDatabase
-
-    //private lateinit var dataFromFavouriteNewsFragment: FavouriteNews
-    //private lateinit var dataFromNewsFragment: ArticlesModel
     private lateinit var newsUrl: String
     private lateinit var newsDate: String
     private lateinit var newsImgUrl: String
