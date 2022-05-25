@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.newsapp.data.FavouriteNews
 import com.newsapp.data.FavouriteNewsDao
+import com.newsapp.utilities.Constants
 
 @Database(entities = [FavouriteNews::class], version = 1)
 abstract class FavouriteNewsDatabase : RoomDatabase() {
@@ -21,7 +22,7 @@ abstract class FavouriteNewsDatabase : RoomDatabase() {
                 INSTANCE = Room.databaseBuilder(
                     context.applicationContext,
                     FavouriteNewsDatabase::class.java,
-                    "favourites_news.db"
+                    Constants.DATABASE_NAME
                 )
                     .allowMainThreadQueries()
                     .build()

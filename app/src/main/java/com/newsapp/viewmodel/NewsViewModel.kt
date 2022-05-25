@@ -9,6 +9,7 @@ import com.newsapp.adapter.NewsAdapter
 import com.newsapp.api.RetrofitInstance
 import com.newsapp.data.ArticlesModel
 import com.newsapp.data.NewsPagingSource
+import com.newsapp.data.repo.NewsRepository
 import com.newsapp.utilities.Constants
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
@@ -20,9 +21,6 @@ class NewsViewModel(
 ) : AndroidViewModel(application) {
 
     private val _searchContent = MutableLiveData<String>()
-
-    private val _data = MutableLiveData<PagingData<ArticlesModel>>()
-    val data: LiveData<PagingData<ArticlesModel>> get() = _data
 
     private val _progressBarVisibility = MutableLiveData(View.GONE)
     val progressBarVisibility: LiveData<Int> get() = _progressBarVisibility
@@ -61,7 +59,6 @@ class NewsViewModel(
                     }
                     else -> null
                 }
-
                 // kullanıcıya yansıtılacak mesajlar ayarlanır
                 handleMessage(error)
             }
@@ -92,30 +89,14 @@ class NewsViewModel(
     fun listenSearchView(query: String?): Boolean {
         setSearchContent(query.toString())
         viewModelScope.launch {
-            getNewsData().collectLatest {
-                adapter.submitData(it)
-            }
+            NewsRepository(_searchContent.value.toString(), viewModelScope).getNewsData()
+                .collectLatest {
+                    adapter.submitData(it)
+                }
         }
         return true
     }
 
-    private fun getPagingNews(): Flow<PagingData<ArticlesModel>> {
-        val pager = Pager(
-            config = PagingConfig(pageSize = Constants.PAGE_SIZE, enablePlaceholders = false),
-            pagingSourceFactory = {
-                NewsPagingSource(
-                    RetrofitInstance,
-                    _searchContent.value.toString()
-                )
-            }
-        ).flow
-            .cachedIn(viewModelScope)
-        return pager
-    }
-
-    private fun getNewsData(): Flow<PagingData<ArticlesModel>> {
-        return getPagingNews().cachedIn(viewModelScope)
-    }
 }
 
 

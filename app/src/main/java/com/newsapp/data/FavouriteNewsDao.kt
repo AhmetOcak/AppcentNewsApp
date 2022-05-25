@@ -6,7 +6,7 @@ import androidx.room.*
 interface FavouriteNewsDao {
 
     @Insert
-    suspend fun addFavouriteNews(favoriteNews: FavouriteNews)
+    fun addFavouriteNews(favoriteNews: FavouriteNews)
 
     @Query("SELECT * FROM favourite_news")
     fun getAllFavouriteNews(): List<FavouriteNews>
@@ -15,5 +15,5 @@ interface FavouriteNewsDao {
     fun getFavouriteNews(newsUrl: String): FavouriteNews?
 
     @Query("DELETE FROM favourite_news WHERE news_url = :newsUrl")
-    suspend fun deleteFavouriteNews(newsUrl: String)
+    fun deleteFavouriteNews(newsUrl: String)
 }

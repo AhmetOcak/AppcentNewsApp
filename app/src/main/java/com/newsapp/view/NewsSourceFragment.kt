@@ -10,6 +10,7 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.fragment.app.Fragment
 import com.newsapp.databinding.FragmentNewsSourceBinding
+import com.newsapp.utilities.Constants
 
 
 class NewsSourceFragment : Fragment() {
@@ -35,7 +36,7 @@ class NewsSourceFragment : Fragment() {
         }
 
         // haberin url'sine gider
-        binding.webview.loadUrl(requireArguments().getString("newsUrl").toString())
+        binding.webview.loadUrl(requireArguments().getString(Constants.NEWS_SOURCE_KEY).toString())
         return binding.root
     }
 }

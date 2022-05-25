@@ -10,6 +10,7 @@ import com.newsapp.R
 import com.newsapp.data.ArticlesModel
 import com.newsapp.data.FavouriteNews
 import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.utilities.Constants
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
@@ -40,23 +41,19 @@ class NewsDetailViewModel(
     private val _favouriteNewsData = MutableLiveData<FavouriteNews>()
     private val _incomingFavNewsData = MutableLiveData<FavouriteNews>()
 
-    private val imageNotFound: String = "https://demofree.sirv.com/nope-not-here.jpg"
-    private val dateNotFound: String = "date not found"
+    private val imageNotFound: String = Constants.IMAGE_NOT_FOUND
+    private val dateNotFound: String = Constants.DATE_NOT_FOUND
 
     init {
         setData()
     }
 
     private fun addFavouriteNews(favNews: FavouriteNews) {
-        viewModelScope.launch {
-            favoriteNewsDB.favouriteNewsDao().addFavouriteNews(favNews)
-        }
+        favoriteNewsDB.favouriteNewsDao().addFavouriteNews(favNews)
     }
 
     private fun deleteFavouriteNews(newsUrl: String) {
-        viewModelScope.launch {
-            favoriteNewsDB.favouriteNewsDao().deleteFavouriteNews(newsUrl)
-        }
+        favoriteNewsDB.favouriteNewsDao().deleteFavouriteNews(newsUrl)
     }
 
     private fun getFavouriteNews() {

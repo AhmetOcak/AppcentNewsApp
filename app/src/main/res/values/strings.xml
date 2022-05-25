@@ -3,7 +3,7 @@
     <string name="empty_label" />
     <string name="source_button_text">News Source</string>
     <string name="favourite_fragment_title">Favourites</string>
-    <string name="news_fragment_title">Appcent NewsApp</string>
+    <string name="news_fragment_title">News</string>
     <string name="news">News</string>
     <string name="favorites">Favorites</string>
     <string name="you_don_t_have_any_favorite_news">You don\'t have any favorite news.</string>

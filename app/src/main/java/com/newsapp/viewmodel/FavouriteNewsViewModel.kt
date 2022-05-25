@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.newsapp.data.FavouriteNews
+import com.newsapp.data.repo.FavouriteNewsRepository
 import com.newsapp.di.FavouriteNewsDatabase
 
 class FavouriteNewsViewModel(private val favouriteNewsDB: FavouriteNewsDatabase) : ViewModel() {
@@ -15,18 +16,21 @@ class FavouriteNewsViewModel(private val favouriteNewsDB: FavouriteNewsDatabase)
     private val _warningTextVisibility = MutableLiveData<Int>()
     val warningTextVisibility: LiveData<Int> get() = _warningTextVisibility
 
+    private val favouriteNewsRepository: FavouriteNewsRepository =
+        FavouriteNewsRepository(favouriteNewsDB)
+
     init {
         getFavouriteNews()
     }
 
     private fun getFavouriteNews() {
-        _favouriteNewsList.value = favouriteNewsDB.favouriteNewsDao().getAllFavouriteNews()
+        _favouriteNewsList.value = favouriteNewsRepository.getFavouriteNewsData()
     }
 
     fun setWarningTextVisibility(count: Int) {
-        if(count == 0) {
+        if (count == 0) {
             _warningTextVisibility.value = View.VISIBLE
-        }else {
+        } else {
             _warningTextVisibility.value = View.GONE
         }
     }
