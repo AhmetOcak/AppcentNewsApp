@@ -10,5 +10,9 @@ class Constants {
         const val DATE_NOT_FOUND = "date not found"
         const val DATABASE_NAME = "favourites_news.db"
         const val NEWS_SOURCE_KEY = "newsUrl"
+        const val END_POINT = "/v2/everything/"
+        const val KEYWORD = "q"
+        const val PAGE = "page"
+        const val KEY = "apiKey"
     }
 }

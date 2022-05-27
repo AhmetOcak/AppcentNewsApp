@@ -1,16 +1,17 @@
 package com.newsapp.api
 
 import com.newsapp.data.NewsModel
+import com.newsapp.utilities.Constants
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
 interface NewsApi {
 
-    @GET("/v2/everything/")
+    @GET(Constants.END_POINT)
     suspend fun getNews(
-        @Query("q") keyword: String,
-        @Query("page") page: String,
-        @Query("apiKey") apiKey: String
+        @Query(Constants.KEYWORD) keyword: String,
+        @Query(Constants.PAGE) page: String,
+        @Query(Constants.KEY) apiKey: String
     ): Response<NewsModel>
 }
