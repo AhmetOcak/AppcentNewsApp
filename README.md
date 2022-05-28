@@ -1,4 +1,4 @@
-# AppcentNewsApp
+# NewsApp
 
 Kullanıcı arama yaparak istediği haberlere ulaşabilir. Haberin detaylarına bakabilir. Haberin sitesine gidebilir. Haberi paylaşabilir. Haberi favorilerine ekleyip çıkartabilir.
 
