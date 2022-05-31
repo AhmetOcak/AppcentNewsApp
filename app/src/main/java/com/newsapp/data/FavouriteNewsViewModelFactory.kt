@@ -2,7 +2,7 @@ package com.newsapp.data
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.db.FavouriteNewsDatabase
 import com.newsapp.viewmodel.FavouriteNewsViewModel
 
 class FavouriteNewsViewModelFactory(private val favouriteNewsDB: FavouriteNewsDatabase) :

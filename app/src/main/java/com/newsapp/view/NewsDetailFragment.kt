@@ -13,7 +13,7 @@ import com.newsapp.data.ArticlesModel
 import com.newsapp.data.FavouriteNews
 import com.newsapp.data.NewsDetailViewModelFactory
 import com.newsapp.databinding.FragmentNewsDetailBinding
-import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.db.FavouriteNewsDatabase
 import com.newsapp.viewmodel.NewsDetailViewModel
 
 class NewsDetailFragment : Fragment() {
@@ -21,13 +21,7 @@ class NewsDetailFragment : Fragment() {
     private lateinit var binding: FragmentNewsDetailBinding
     private lateinit var viewModel: NewsDetailViewModel
     private lateinit var favoriteNewsDB: FavouriteNewsDatabase
-    private lateinit var newsUrl: String
-    private lateinit var newsDate: String
-    private lateinit var newsImgUrl: String
-    private lateinit var data: Any
-
-    // true ise newsFragmenttan gelindi, false ise favouriteFragmenttan gelindi
-    private var navControl: Boolean = true
+    //private lateinit var data: Any
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,34 +44,14 @@ class NewsDetailFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.newsDetailsFragmentToolbar.customToolbar.inflateMenu(R.menu.toolbar_menu)
 
-        takeData()
-
         viewModel =
-            NewsDetailViewModelFactory(requireActivity().application, favoriteNewsDB, data).create(
+            NewsDetailViewModelFactory(requireActivity().application, favoriteNewsDB, this).create(
                 NewsDetailViewModel::class.java
             )
         binding.viewModel = viewModel
         setMenuClickListener()
         setFavIcon()
         setOnBackPressed()
-    }
-
-    private fun takeData() {
-        if (requireArguments().getSerializable("favouriteNews") != null) {
-            navControl = false
-            data =
-                requireArguments().getSerializable("favouriteNews") as FavouriteNews
-            newsUrl = (data as FavouriteNews).newsUrl
-            newsDate = (data as FavouriteNews).newsDate
-            newsImgUrl = (data as FavouriteNews).newsImageUrl
-        } else {
-            navControl = true
-            data =
-                requireArguments().getSerializable("newsData") as ArticlesModel
-            newsUrl = (data as ArticlesModel).url.toString()
-            newsDate = (data as ArticlesModel).publishedAt.toString()
-            newsImgUrl = (data as ArticlesModel).urlToImage.toString()
-        }
     }
 
     private fun setMenuClickListener() {
@@ -97,11 +71,11 @@ class NewsDetailFragment : Fragment() {
                 R.id.add_favorite -> {
                     val favNews = FavouriteNews(
                         newsTitle = binding.detailNewsTitle.text.toString(),
-                        newsDate = newsDate,
+                        newsDate = viewModel.newsDate.value.toString(),
                         newsDescription = binding.detailNewsDescription.text.toString(),
                         newsSource = binding.newsSource.text.toString(),
-                        newsImageUrl = newsImgUrl,
-                        newsUrl = newsUrl
+                        newsImageUrl = viewModel.newsImageUrl.value.toString(),
+                        newsUrl = viewModel.newsUrl.value.toString()
                     )
                     viewModel.setInComingFavData(favNews)
                     viewModel.addOrDelete(it)
@@ -134,7 +108,7 @@ class NewsDetailFragment : Fragment() {
     }
 
     private fun goToBackScreen() {
-        if (navControl) {
+        if (viewModel.navControl.value!!) {
             findNavController().navigate(R.id.action_newsDetailFragment_to_newsFragment)
         } else {
             findNavController().navigate(R.id.action_newsDetailFragment_to_favoriteNewsFragment)
@@ -144,6 +118,6 @@ class NewsDetailFragment : Fragment() {
     fun goToNextScreen() {
         findNavController().navigate(
             R.id.action_newsDetailFragment_to_newsSourceFragment,
-            Bundle().apply { putString("newsUrl", newsUrl) })
+            Bundle().apply { putString("newsUrl", viewModel.newsUrl.value) })
     }
 }

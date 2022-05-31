@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.newsapp.data.FavouriteNews
 import com.newsapp.data.repo.FavouriteNewsRepository
-import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.db.FavouriteNewsDatabase
 
 class FavouriteNewsViewModel(private val favouriteNewsDB: FavouriteNewsDatabase) : ViewModel() {
 

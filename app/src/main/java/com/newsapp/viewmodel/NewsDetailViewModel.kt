@@ -3,22 +3,24 @@ package com.newsapp.viewmodel
 import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
+import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.newsapp.R
 import com.newsapp.data.ArticlesModel
 import com.newsapp.data.FavouriteNews
-import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.db.FavouriteNewsDatabase
 import com.newsapp.utilities.Constants
-import kotlinx.coroutines.launch
+import com.newsapp.view.NewsDetailFragment
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 
 class NewsDetailViewModel(
     application: Application,
     private val favoriteNewsDB: FavouriteNewsDatabase,
-    private val newsData: Any?,
+    private val fragment: NewsDetailFragment,
 ) : AndroidViewModel(application) {
 
     private val _newsTitle = MutableLiveData<String>()
@@ -36,15 +38,21 @@ class NewsDetailViewModel(
     private val _newsImageUrl = MutableLiveData<String>()
     val newsImageUrl: LiveData<String> get() = _newsImageUrl
 
-    private val navControl = MutableLiveData<Boolean>()
+    private val _newsUrl = MutableLiveData<String>()
+    val newsUrl: LiveData<String> get() = _newsUrl
+
+    // true ise newsFragmenttan gelindi, false ise favouriteFragmenttan gelindi
+    val navControl = MutableLiveData<Boolean>()
 
     private val _favouriteNewsData = MutableLiveData<FavouriteNews>()
     private val _incomingFavNewsData = MutableLiveData<FavouriteNews>()
 
     private val imageNotFound: String = Constants.IMAGE_NOT_FOUND
     private val dateNotFound: String = Constants.DATE_NOT_FOUND
+    private var data: Any? = null
 
     init {
+        takeData()
         setData()
     }
 
@@ -68,13 +76,25 @@ class NewsDetailViewModel(
         _incomingFavNewsData.value = favNewsData
     }
 
-    private fun setData() {
-        if (newsData != null && newsData is FavouriteNews) {
+    private fun takeData() {
+        if (fragment.requireArguments().getSerializable("favouriteNews") != null) {
             navControl.value = false
-            setFavouriteNewsInfos(newsData)
+            data =
+                fragment.requireArguments().getSerializable("favouriteNews") as FavouriteNews
         } else {
             navControl.value = true
-            setNewsInfos(newsData as ArticlesModel)
+            data =
+                fragment.requireArguments().getSerializable("newsData") as ArticlesModel
+        }
+    }
+
+    private fun setData() {
+        if (data != null && data is FavouriteNews) {
+            navControl.value = false
+            setFavouriteNewsInfos(data as FavouriteNews)
+        } else {
+            navControl.value = true
+            setNewsInfos(data as ArticlesModel)
         }
     }
 
@@ -82,10 +102,11 @@ class NewsDetailViewModel(
     @SuppressLint("NewApi")
     private fun setFavouriteNewsInfos(favouriteNews: FavouriteNews) {
         _newsTitle.value = favouriteNews.newsTitle
-        _newsDate.value = formatDate(favouriteNews.newsDate)
+        _newsDate.value = favouriteNews.newsDate
         _newsSource.value = favouriteNews.newsSource
         _newsDescription.value = favouriteNews.newsDescription
         _newsImageUrl.value = favouriteNews.newsImageUrl
+        _newsUrl.value = favouriteNews.newsUrl
     }
 
     // haberler sayfasından haber detay sayfasına giderken kullanılıyor
@@ -96,6 +117,7 @@ class NewsDetailViewModel(
         _newsSource.value = news.source?.name
         _newsDescription.value = news.description ?: ""
         _newsImageUrl.value = news.urlToImage ?: imageNotFound
+        _newsUrl.value = news.url ?: Constants.NOT_FOUND_PAGE
     }
 
     // Eğer ilgili haber daha önceden favorilere eklenmediyse favorilere ekler ve favori ekle iconunu
@@ -115,14 +137,14 @@ class NewsDetailViewModel(
 
     // haberin favorilere daha önceden eklenip eklenmediği durumuna göre favori ekle iconunu düzenler
     fun setFavouriteIcon(): Boolean {
-        return if (newsData == null) {
+        return if (data == null) {
             searchInDb()
         } else {
             val url = favoriteNewsDB.favouriteNewsDao().getFavouriteNews(
-                if (newsData is FavouriteNews) {
-                    newsData.newsUrl
+                if (data is FavouriteNews) {
+                    (data as FavouriteNews).newsUrl
                 } else {
-                    (newsData as ArticlesModel).url.toString()
+                    (data as ArticlesModel).url.toString()
                 }
             )
             url == null

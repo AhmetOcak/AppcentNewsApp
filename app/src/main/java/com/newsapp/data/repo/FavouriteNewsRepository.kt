@@ -1,7 +1,7 @@
 package com.newsapp.data.repo
 
 import com.newsapp.data.FavouriteNews
-import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.db.FavouriteNewsDatabase
 
 class FavouriteNewsRepository(private val favouriteNewsDB: FavouriteNewsDatabase) {
 

@@ -12,7 +12,7 @@ import com.newsapp.R
 import com.newsapp.adapter.FavouriteNewsAdapter
 import com.newsapp.data.FavouriteNewsViewModelFactory
 import com.newsapp.databinding.FragmentFavoriteNewsBinding
-import com.newsapp.di.FavouriteNewsDatabase
+import com.newsapp.db.FavouriteNewsDatabase
 import com.newsapp.viewmodel.FavouriteNewsViewModel
 
 class FavoriteNewsFragment : Fragment() {
