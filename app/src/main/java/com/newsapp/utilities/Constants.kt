@@ -14,5 +14,6 @@ class Constants {
         const val KEYWORD = "q"
         const val PAGE = "page"
         const val KEY = "apiKey"
+        const val NOT_FOUND_PAGE = "https://www.mantralabsglobal.com/404"
     }
 }
