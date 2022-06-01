@@ -21,7 +21,6 @@ class NewsDetailFragment : Fragment() {
     private lateinit var binding: FragmentNewsDetailBinding
     private lateinit var viewModel: NewsDetailViewModel
     private lateinit var favoriteNewsDB: FavouriteNewsDatabase
-    //private lateinit var data: Any
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
