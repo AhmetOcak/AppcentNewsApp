@@ -26,7 +26,7 @@ When there is no result for the related search, the message "There are no result
 
 [<li>Coil</li>](https://coil-kt.github.io/coil/)
 
-## Uygulamadan görseller. 🖼
+## Images from app. 🖼
 
 ### News Screen
 <p align="left" width="100%">
