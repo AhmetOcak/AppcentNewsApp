@@ -5,7 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.newsapp.api.RetrofitInstance
-import com.newsapp.data.ArticlesModel
+import com.newsapp.data.models.ArticlesModel
 import com.newsapp.data.NewsPagingSource
 import com.newsapp.utilities.Constants
 import kotlinx.coroutines.CoroutineScope

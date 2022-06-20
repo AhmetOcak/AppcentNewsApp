@@ -4,7 +4,7 @@ import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.newsapp.data.FavouriteNews
+import com.newsapp.data.models.FavouriteNews
 import com.newsapp.data.repo.FavouriteNewsRepository
 import com.newsapp.db.FavouriteNewsDatabase
 

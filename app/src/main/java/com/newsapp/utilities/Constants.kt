@@ -15,5 +15,6 @@ class Constants {
         const val PAGE = "page"
         const val KEY = "apiKey"
         const val NOT_FOUND_PAGE = "https://www.mantralabsglobal.com/404"
+        const val VM_FACTORY_EXCEPTION_MESSAGE = "Can not create instance of this viewModel"
     }
 }

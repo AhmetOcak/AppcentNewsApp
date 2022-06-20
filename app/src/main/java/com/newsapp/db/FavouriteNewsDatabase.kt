@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.newsapp.data.FavouriteNews
+import com.newsapp.data.models.FavouriteNews
 import com.newsapp.data.FavouriteNewsDao
 import com.newsapp.utilities.Constants
 

@@ -3,6 +3,7 @@ package com.newsapp.data
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.newsapp.api.RetrofitInstance
+import com.newsapp.data.models.ArticlesModel
 import com.newsapp.utilities.Constants
 import java.lang.Exception
 

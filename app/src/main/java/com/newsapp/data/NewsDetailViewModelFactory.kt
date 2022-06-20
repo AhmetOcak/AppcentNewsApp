@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.newsapp.db.FavouriteNewsDatabase
+import com.newsapp.utilities.Constants
 import com.newsapp.view.NewsDetailFragment
 import com.newsapp.viewmodel.NewsDetailViewModel
 import java.lang.IllegalArgumentException
@@ -17,7 +18,7 @@ class NewsDetailViewModelFactory(
         if (modelClass.isAssignableFrom(NewsDetailViewModel::class.java)) {
             return NewsDetailViewModel(application, favoriteNewsDB, fragment) as T
         }else {
-            throw IllegalArgumentException("Can not create instance of this viewModel")
+            throw IllegalArgumentException(Constants.VM_FACTORY_EXCEPTION_MESSAGE)
         }
     }
 }

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.newsapp.R
 import com.newsapp.databinding.NewsCardBinding
-import com.newsapp.data.ArticlesModel
+import com.newsapp.data.models.ArticlesModel
 import okhttp3.HttpUrl.Companion.toHttpUrl
 
 

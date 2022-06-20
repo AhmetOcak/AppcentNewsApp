@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import com.newsapp.R
-import com.newsapp.data.FavouriteNews
+import com.newsapp.data.models.FavouriteNews
 import com.newsapp.databinding.NewsCardBinding
 import okhttp3.HttpUrl.Companion.toHttpUrl
 

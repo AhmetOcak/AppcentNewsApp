@@ -1,6 +1,7 @@
 package com.newsapp.data
 
 import androidx.room.*
+import com.newsapp.data.models.FavouriteNews
 
 @Dao
 interface FavouriteNewsDao {

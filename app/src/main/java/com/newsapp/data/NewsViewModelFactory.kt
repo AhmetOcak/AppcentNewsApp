@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.newsapp.adapter.NewsAdapter
+import com.newsapp.utilities.Constants
 import com.newsapp.viewmodel.NewsViewModel
 import java.lang.IllegalArgumentException
 
@@ -15,7 +16,7 @@ class NewsViewModelFactory(
         if (modelClass.isAssignableFrom(NewsViewModel::class.java)) {
             return  NewsViewModel(application, adapter) as T
         }else {
-            throw IllegalArgumentException("Can not create instance of this viewModel")
+            throw IllegalArgumentException(Constants.VM_FACTORY_EXCEPTION_MESSAGE)
         }
     }
 

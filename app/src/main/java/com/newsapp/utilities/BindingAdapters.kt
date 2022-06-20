@@ -1,4 +1,4 @@
-package com.newsapp.adapter
+package com.newsapp.utilities
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter

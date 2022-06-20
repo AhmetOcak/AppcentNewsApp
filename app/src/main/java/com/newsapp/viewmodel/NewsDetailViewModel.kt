@@ -3,17 +3,15 @@ package com.newsapp.viewmodel
 import android.annotation.SuppressLint
 import android.app.Application
 import android.os.Build
-import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.*
 import com.newsapp.R
-import com.newsapp.data.ArticlesModel
-import com.newsapp.data.FavouriteNews
+import com.newsapp.data.models.ArticlesModel
+import com.newsapp.data.models.FavouriteNews
 import com.newsapp.db.FavouriteNewsDatabase
 import com.newsapp.utilities.Constants
 import com.newsapp.view.NewsDetailFragment
-import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.time.format.DateTimeFormatter
 

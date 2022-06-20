@@ -6,12 +6,7 @@ import androidx.lifecycle.*
 import androidx.paging.*
 import com.newsapp.R
 import com.newsapp.adapter.NewsAdapter
-import com.newsapp.api.RetrofitInstance
-import com.newsapp.data.ArticlesModel
-import com.newsapp.data.NewsPagingSource
 import com.newsapp.data.repo.NewsRepository
-import com.newsapp.utilities.Constants
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 

@@ -9,8 +9,7 @@ import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.newsapp.R
-import com.newsapp.data.ArticlesModel
-import com.newsapp.data.FavouriteNews
+import com.newsapp.data.models.FavouriteNews
 import com.newsapp.data.NewsDetailViewModelFactory
 import com.newsapp.databinding.FragmentNewsDetailBinding
 import com.newsapp.db.FavouriteNewsDatabase

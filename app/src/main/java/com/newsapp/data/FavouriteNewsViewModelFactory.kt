@@ -3,6 +3,7 @@ package com.newsapp.data
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.newsapp.db.FavouriteNewsDatabase
+import com.newsapp.utilities.Constants
 import com.newsapp.viewmodel.FavouriteNewsViewModel
 
 class FavouriteNewsViewModelFactory(private val favouriteNewsDB: FavouriteNewsDatabase) :
@@ -11,7 +12,7 @@ class FavouriteNewsViewModelFactory(private val favouriteNewsDB: FavouriteNewsDa
         if (modelClass.isAssignableFrom(FavouriteNewsViewModel::class.java)) {
             return FavouriteNewsViewModel(favouriteNewsDB) as T
         }else {
-            throw IllegalArgumentException("Can not create instance of this viewModel")
+            throw IllegalArgumentException(Constants.VM_FACTORY_EXCEPTION_MESSAGE)
         }
     }
 }
