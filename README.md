@@ -12,19 +12,19 @@ When there is no result for the related search, the message "There are no result
 
 ## Libraries 📚
 
-[<li>Navigation</li>](https://developer.android.com/guide/navigation)
+* [Navigation](https://developer.android.com/guide/navigation)
 
-[<li>Retrofit</li>](https://square.github.io/retrofit)
+* [Retrofit](https://square.github.io/retrofit)
 
-[<li>ViewModel</li>](https://developer.android.com/topic/libraries/architecture/viewmodel)
+* [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel)
 
-[<li>Paging</li>](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
+* [Paging](https://developer.android.com/topic/libraries/architecture/paging/v3-overview)
 
-[<li>Room</li>](https://developer.android.com/jetpack/androidx/releases/room)
+* [Room](https://developer.android.com/jetpack/androidx/releases/room)
 
-[<li>Okhttp</li>](https://square.github.io/okhttp/)
+* [Okhttp](https://square.github.io/okhttp/)
 
-[<li>Coil</li>](https://coil-kt.github.io/coil/)
+* [Coil](https://coil-kt.github.io/coil/)
 
 ## Images from app. 🖼
 
